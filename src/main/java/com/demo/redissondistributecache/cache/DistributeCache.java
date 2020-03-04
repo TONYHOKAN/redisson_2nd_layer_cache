@@ -1,6 +1,5 @@
 package com.demo.redissondistributecache.cache;
 
-import com.demo.redissondistributecache.RedissonDistributeCacheApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
@@ -181,25 +180,27 @@ public class DistributeCache implements Cache
 	public void evict(Object key)
 	{
 		redisCache.evict(key);
-		// TODO publish event
+		distributeCacheManager.publishEvictCacheEvent(redisCache.getName(), key);
 	}
 
 	@Override
 	public void clear()
 	{
 		redisCache.clear();
-		// TODO publish event
+		distributeCacheManager.publishClearCacheEvent(redisCache.getName());
 	}
 
 	// other node DistributeCacheManager will receive event to evict local cache by call this method
-	public void evictLocalCache()
+	public void evictLocalCache(Object key)
 	{
-		localCacheManager.getCache(redisCache.getName()).evict(redisCache.getName());
+		LOG.info("evict local cache, cacheName: {}, key: {}", redisCache.getName(), key);
+		localCacheManager.getCache(redisCache.getName()).evict(key);
 	}
 
 	// other node DistributeCacheManager will receive event to clean local cache by call this method
 	public void clearLocalCache()
 	{
+		LOG.info("clear local cache, cacheName: {}", redisCache.getName());
 		localCacheManager.getCache(redisCache.getName()).clear();
 	}
 }

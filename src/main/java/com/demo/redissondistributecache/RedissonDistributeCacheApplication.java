@@ -62,6 +62,14 @@ public class RedissonDistributeCacheApplication
 		return value;
 	}
 
+	@GetMapping("/clearCache")
+	public String clearCache()
+	{
+		LOG.info("clearCache: testCache ");
+		cacheManager.getCache("testCache").clear();
+		return "done";
+	}
+
 	@GetMapping("/checkCacheManager")
 	public String checkCacheManager()
 	{
