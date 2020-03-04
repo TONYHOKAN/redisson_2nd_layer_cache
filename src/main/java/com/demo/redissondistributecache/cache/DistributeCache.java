@@ -68,7 +68,7 @@ public class DistributeCache implements Cache
 			if (wrapper != null)
 			{
 				// fill 1st level cache for faster cache for next time get
-				LOG.info("found in 2nd level cache, name:{} - key: {}", redisCache.getName(), key);
+				LOG.info("found in 2nd level cache, also put to 1st level cache, name:{} - key: {}", redisCache.getName(), key);
 				localCacheManager.getCache(redisCache.getName()).put(key, wrapper.get());
 
 				return wrapper;

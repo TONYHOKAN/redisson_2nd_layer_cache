@@ -7,6 +7,7 @@ import org.redisson.config.Config;
 import org.redisson.config.ReadMode;
 import org.redisson.config.SubscriptionMode;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,9 @@ import java.io.IOException;
 @Configuration
 public class RedissonConfig
 {
+	@Value("${spring.redis.sentinel.master}")
+	String sentinelHostPort;
+
 	// make spring redis data, redisTemplate to use Redisson
 	@Bean
 	public RedissonConnectionFactory redissonConnectionFactory(RedissonClient redisson) {
@@ -47,7 +51,7 @@ public class RedissonConfig
 				.setReadMode(ReadMode.SLAVE)
 				.setSubscriptionMode(SubscriptionMode.SLAVE)
 				.setDatabase(2)
-				.addSentinelAddress("redis://localhost:26379");
+				.addSentinelAddress("redis://" + sentinelHostPort);
 
 
 
