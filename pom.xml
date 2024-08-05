@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
-            <version>3.12.2</version>
+            <version>3.22.0</version>
         </dependency>
         <!-- test use JSR-107 API instead directly use ehcache-->
         <!--<dependency>-->
